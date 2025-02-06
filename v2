@@ -1,0 +1,40 @@
+import React, { useState } from "react";
+import { Progress } from "@/components/ui/progress";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const modules = [
+  "Introduction au coaching",
+  "Fixer des objectifs",
+  "Techniques de motivation",
+  "Gestion du stress",
+  "Évaluation des progrès",
+];
+
+export default function CoachingSite() {
+  const [currentModule, setCurrentModule] = useState(0);
+  const progress = (currentModule / modules.length) * 100;
+
+  const handleNextModule = () => {
+    if (currentModule < modules.length - 1) {
+      setCurrentModule((prev) => prev + 1);
+    }
+  };
+
+  return (
+    <div className="bg-black min-h-screen text-white p-6 flex items-center justify-center">
+      <Card className="bg-gray-900 p-6 max-w-md w-full">
+        <CardContent className="text-center">
+          <h1 className="text-3xl font-bold mb-4">Coaching Pro</h1>
+          <p className="text-lg mb-2">Module : {modules[currentModule]}</p>
+          <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} className="h-2 bg-blue-500 rounded" />
+          <p className="mt-2">{progress.toFixed(0)}%</p>
+          <Button onClick={handleNextModule} className="w-full mt-4" disabled={currentModule >= modules.length - 1}>
+            {currentModule >= modules.length - 1 ? "Terminé" : "Module suivant"}
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
